@@ -1,0 +1,57 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="studentCurs">
+      <h2 data-cy="studentCursDetailsHeading"><span>Student Curs</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ studentCurs.id }}</span>
+        </dd>
+        <dt><span>Nota</span></dt>
+        <dd>
+          <span>{{ studentCurs.nota }}</span>
+        </dd>
+        <dt><span>Student</span></dt>
+        <dd>
+          <div *ngIf="studentCurs.student">
+            <a [routerLink]="['/student', studentCurs.student?.id, 'view']">{{
+              studentCurs.student?.nume
+            }}</a>
+          </div>
+        </dd>
+        <dt><span>Curs</span></dt>
+        <dd>
+          <div *ngIf="studentCurs.curs">
+            <a [routerLink]="['/curs', studentCurs.curs?.id, 'view']">{{
+              studentCurs.curs?.nume
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button
+        type="submit"
+        (click)="previousState()"
+        class="btn btn-info"
+        data-cy="entityDetailsBackButton"
+      >
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button
+        type="button"
+        [routerLink]="['/student-curs', studentCurs.id, 'edit']"
+        class="btn btn-primary"
+      >
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

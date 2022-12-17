@@ -1,0 +1,140 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form
+      name="editForm"
+      role="form"
+      novalidate
+      (ngSubmit)="save()"
+      [formGroup]="editForm"
+    >
+      <h2
+        id="jhi-student-curs-heading"
+        data-cy="StudentCursCreateUpdateHeading"
+      >
+        Create or edit a Student Curs
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" for="field_id">ID</label>
+          <input
+            type="number"
+            class="form-control"
+            name="id"
+            id="field_id"
+            data-cy="id"
+            formControlName="id"
+            [readonly]="true"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_nota">Nota</label>
+          <input
+            type="number"
+            class="form-control"
+            name="nota"
+            id="field_nota"
+            data-cy="nota"
+            formControlName="nota"
+          />
+          <div
+            *ngIf="
+              editForm.get('nota')!.invalid &&
+              (editForm.get('nota')!.dirty || editForm.get('nota')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('nota')?.errors?.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('nota')?.errors?.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_student">Student</label>
+          <select
+            class="form-control"
+            id="field_student"
+            data-cy="student"
+            name="student"
+            formControlName="student"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                studentOption.id === editForm.get('student')!.value?.id
+                  ? editForm.get('student')!.value
+                  : studentOption
+              "
+              *ngFor="
+                let studentOption of studentsSharedCollection;
+                trackBy: trackStudentById
+              "
+            >
+              {{ studentOption.nume }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_curs">Curs</label>
+          <select
+            class="form-control"
+            id="field_curs"
+            data-cy="curs"
+            name="curs"
+            formControlName="curs"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                cursOption.id === editForm.get('curs')!.value?.id
+                  ? editForm.get('curs')!.value
+                  : cursOption
+              "
+              *ngFor="
+                let cursOption of cursSharedCollection;
+                trackBy: trackCursById
+              "
+            >
+              {{ cursOption.nume }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button
+          type="button"
+          id="cancel-save"
+          data-cy="entityCreateCancelButton"
+          class="btn btn-secondary"
+          (click)="previousState()"
+        >
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
