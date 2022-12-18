@@ -51,6 +51,10 @@ export class StudentCursComponent implements OnInit {
     if (this.accountDetails?.authorities[0] === 'ROLE_STUDENT'){
         this.studentCurs = this.studentCurs.filter((note) => note.student?.mail === this.accountDetails?.email);
     }
+      //the filter for profesor it doesn't work. Will show none of the data from Note Curs
+      if (this.accountDetails?.authorities[0] === 'ROLE_PROFESOR') { 
+          this.studentCurs = this.studentCurs.filter((note) => note.curs?.profesor?.mail === this.accountDetails?.email);
+    }
   }
 
   trackId(_index: number, item: IStudentCurs): number {

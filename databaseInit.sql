@@ -30,3 +30,20 @@ CREATE TABLE student_curs (
 	FOREIGN KEY (StudentId) REFERENCES Student(id)
 );
 
+INSERT INTO test.roles
+(`Id`,
+`Name`,
+`NormalizedName`)
+VALUES
+('role_student',
+'ROLE_STUDENT',
+'ROLE_STUDENT');
+
+INSERT INTO test.roles
+(`Id`,
+`Name`,
+`NormalizedName`)
+VALUES
+('role_profesor',
+'ROLE_PROFESOR',
+'ROLE_PROFESOR');
