@@ -63,7 +63,7 @@
             aria-labelledby="entity-menu"
           >
             <li>
-              <a
+              <a *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR']"
                 class="dropdown-item"
                 routerLink="profesor"
                 routerLinkActive="active"
@@ -87,7 +87,7 @@
               </a>
             </li>
             <li>
-              <a
+              <a *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_PROFESOR', 'ROLE_SECRETAR']"
                 class="dropdown-item"
                 routerLink="student"
                 routerLinkActive="active"

@@ -10,7 +10,7 @@ import { Account } from "app/core/auth/account.model";
 
 @Injectable({ providedIn: "root" })
 export class AccountService {
-  private userIdentity: Account | null = null;
+  public userIdentity: Account | null = null;
   private authenticationState = new ReplaySubject<Account | null>(1);
   private accountCache$?: Observable<Account> | null;
 
@@ -70,7 +70,7 @@ export class AccountService {
     return this.authenticationState.asObservable();
   }
 
-  private fetch(): Observable<Account> {
+  fetch(): Observable<Account> {
     return this.http.get<Account>(
       this.applicationConfigService.getEndpointFor("api/account")
     );
