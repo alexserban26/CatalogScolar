@@ -3,7 +3,6 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Component, OnInit } from "@angular/core";
 import { HttpResponse } from "@angular/common/http";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Observable } from "rxjs";
 
 import { ICurs } from "../curs.model";
 import { CursService } from "../service/curs.service";

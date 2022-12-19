@@ -1,14 +1,15 @@
+import { ProfesorService } from 'app/entities/profesor/service/profesor.service';
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { Component, OnInit } from "@angular/core";
 import { HttpResponse } from "@angular/common/http";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Observable } from "rxjs";
 
 
 import { IStudentCurs } from "../student-curs.model";
 import { StudentCursService } from "../service/student-curs.service";
 import { StudentCursDeleteDialogComponent } from "../delete/student-curs-delete-dialog.component";
+import { IProfesor, Profesor } from 'app/entities/profesor/profesor.model';
 
 @Component({
   selector: "jhi-student-curs",
@@ -18,15 +19,31 @@ export class StudentCursComponent implements OnInit {
   studentCurs!: IStudentCurs[];
   isLoading = false;
   accountDetails!: Account | null;
+  profesorDetails!: Profesor | null;
 
   constructor(
     protected studentCursService: StudentCursService,
     protected modalService: NgbModal,
-    protected accountService: AccountService
+    protected accountService: AccountService,
+    protected profesorService: ProfesorService
   ) {}
 
   loadAll(): void {
     this.isLoading = true;
+
+    if(this.accountDetails?.authorities[0] === 'ROLE_PROFESOR'){
+        this.profesorService.query().subscribe({
+            next: (res: HttpResponse<IProfesor[]>) => {
+            this.isLoading = false;
+            const profesors = res.body ?? [];
+            this.profesorDetails = profesors.filter((profesor) => profesor.mail === this.accountDetails?.email)[0];
+            },
+            error: () => {
+            this.isLoading = false;
+            },
+        });
+    }
+
 
     this.studentCursService.query().subscribe({
       next: (res: HttpResponse<IStudentCurs[]>) => {
@@ -51,9 +68,10 @@ export class StudentCursComponent implements OnInit {
     if (this.accountDetails?.authorities[0] === 'ROLE_STUDENT'){
         this.studentCurs = this.studentCurs.filter((note) => note.student?.mail === this.accountDetails?.email);
     }
-      //the filter for profesor it doesn't work. Will show none of the data from Note Curs
-      if (this.accountDetails?.authorities[0] === 'ROLE_PROFESOR') { 
-          this.studentCurs = this.studentCurs.filter((note) => note.curs?.profesor?.mail === this.accountDetails?.email);
+    if (this.accountDetails?.authorities[0] === 'ROLE_PROFESOR' && this.profesorDetails) {
+        this.studentCurs = this.studentCurs.filter((note) => note.curs?.profesor?.id === this.profesorDetails?.id);
+    }else {
+        this.studentCurs = this.studentCurs.filter((note) => note.curs?.profesor?.id === -1);
     }
   }
 
