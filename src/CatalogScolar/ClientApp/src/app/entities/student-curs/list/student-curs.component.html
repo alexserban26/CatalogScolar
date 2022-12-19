@@ -44,7 +44,7 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr>
-          <th scope="col"><span>ID</span></th>
+          <!--<th scope="col"><span>ID</span></th>-->
           <th scope="col"><span>Nota</span></th>
           <th scope="col"><span>Student</span></th>
           <th scope="col"><span>Curs</span></th>
@@ -52,64 +52,63 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="let studentCurs of studentCurs; trackBy: trackId"
-          data-cy="entityTable"
-        >
-          <td>
-            <a [routerLink]="['/student-curs', studentCurs.id, 'view']">{{
-              studentCurs.id
-            }}</a>
-          </td>
-          <td>{{ studentCurs.nota }}</td>
-          <td>
-            <div *ngIf="studentCurs.student">
-              <a [routerLink]="['/student', studentCurs.student?.id, 'view']">{{
+          <tr *ngFor="let studentCurs of studentCurs; trackBy: trackId"
+              data-cy="entityTable">
+              <!--<td>
+      <a [routerLink]="['/student-curs', studentCurs.id, 'view']">{{
+        studentCurs.id
+      }}</a>
+    </td> -->
+              <td>{{ studentCurs.nota }}</td>
+              <td>
+                  <div *ngIf="studentCurs.student">
+                      <a [routerLink]="['/student', studentCurs.student?.id, 'view']">
+                          {{
                 studentCurs.student?.nume
-              }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="studentCurs.curs">
-              <a [routerLink]="['/curs', studentCurs.curs?.id, 'view']">{{
+                          }}
+                      </a>
+                  </div>
+              </td>
+              <td>
+                  <div *ngIf="studentCurs.curs">
+                      <a [routerLink]="['/curs', studentCurs.curs?.id, 'view']">
+                          {{
                 studentCurs.curs?.nume
-              }}</a>
-            </div>
-          </td>
-          <td class="text-end">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/student-curs', studentCurs.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
-              </button>
+                          }}
+                      </a>
+                  </div>
+              </td>
+              <td class="text-end">
+                  <div class="btn-group">
+                      <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR', 'ROLE_PROFESOR']"
+                              type="submit"
+                              [routerLink]="['/student-curs', studentCurs.id, 'view']"
+                              class="btn btn-info btn-sm"
+                              data-cy="entityDetailsButton">
+                          <fa-icon icon="eye"></fa-icon>
+                          <span class="d-none d-md-inline">View</span>
+                      </button>
 
-              <button
-                type="submit"
-                [routerLink]="['/student-curs', studentCurs.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
-              </button>
+                      <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR', 'ROLE_PROFESOR']"
+                              type="submit"
+                              [routerLink]="['/student-curs', studentCurs.id, 'edit']"
+                              class="btn btn-primary btn-sm"
+                              data-cy="entityEditButton">
+                          <fa-icon icon="pencil-alt"></fa-icon>
+                          <span class="d-none d-md-inline">Edit</span>
+                      </button>
 
-              <button
-                type="submit"
-                (click)="delete(studentCurs)"
-                class="btn btn-danger btn-sm"
-                data-cy="entityDeleteButton"
-              >
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
-              </button>
-            </div>
-          </td>
-        </tr>
+                      <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR']"
+                              type="submit"
+                              (click)="delete(studentCurs)"
+                              class="btn btn-danger btn-sm"
+                              data-cy="entityDeleteButton">
+                          <fa-icon icon="times"></fa-icon>
+                          <span class="d-none d-md-inline">Delete</span>
+                      </button>
+                  </div>
+              </td>
+          </tr>
       </tbody>
     </table>
   </div>
