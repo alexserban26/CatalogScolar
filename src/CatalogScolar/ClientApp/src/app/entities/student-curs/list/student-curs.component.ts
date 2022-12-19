@@ -32,16 +32,7 @@ export class StudentCursComponent implements OnInit {
     this.isLoading = true;
 
     if(this.accountDetails?.authorities[0] === 'ROLE_PROFESOR'){
-        this.profesorService.query().subscribe({
-            next: (res: HttpResponse<IProfesor[]>) => {
-            this.isLoading = false;
-            const profesors = res.body ?? [];
-            this.profesorDetails = profesors.filter((profesor) => profesor.mail === this.accountDetails?.email)[0];
-            },
-            error: () => {
-            this.isLoading = false;
-            },
-        });
+
     }
 
 
@@ -68,12 +59,25 @@ export class StudentCursComponent implements OnInit {
     if (this.accountDetails?.authorities[0] === 'ROLE_STUDENT'){
         this.studentCurs = this.studentCurs.filter((note) => note.student?.mail === this.accountDetails?.email);
     }
-    if (this.accountDetails?.authorities[0] === 'ROLE_PROFESOR' && this.profesorDetails) {
-        this.studentCurs = this.studentCurs.filter((note) => note.curs?.profesor?.id === this.profesorDetails?.id);
-    }else {
-        this.studentCurs = this.studentCurs.filter((note) => note.curs?.profesor?.id === -1);
+    if (this.accountDetails?.authorities[0] === 'ROLE_PROFESOR') {
+        this.profesorService.query().subscribe({
+            next: (res: HttpResponse<IProfesor[]>) => {
+            this.isLoading = false;
+            const profesors = res.body ?? [];
+            this.profesorDetails = profesors.filter((profesor) => profesor.mail === this.accountDetails?.email)[0];
+            },
+            error: () => {
+            this.isLoading = false;
+            },
+        });
+        if(this.profesorDetails){
+            this.studentCurs = this.studentCurs.filter((note) => note.curs?.profesor?.id === this.profesorDetails?.id);
+        }
+        else {
+            this.studentCurs = this.studentCurs.filter((note) => note.curs?.profesor?.id === -1);
+        }
     }
-  }
+    }
 
   trackId(_index: number, item: IStudentCurs): number {
     return item.id!;
