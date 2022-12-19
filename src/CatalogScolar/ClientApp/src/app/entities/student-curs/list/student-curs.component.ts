@@ -16,7 +16,7 @@ import { IProfesor, Profesor } from 'app/entities/profesor/profesor.model';
   templateUrl: "./student-curs.component.html",
 })
 export class StudentCursComponent implements OnInit {
-  studentCurs!: IStudentCurs[];
+  studentCurs!: any[];
   isLoading = false;
   accountDetails!: Account | null;
   profesorDetails!: Profesor | null;
@@ -45,6 +45,9 @@ export class StudentCursComponent implements OnInit {
 
   ngOnInit(): void {
     this.accountDetails = this.accountService.userIdentity;
+    if (this.accountDetails?.authorities[0] === 'ROLE_PROFESOR') {
+        this.getProfesors();
+    }
     this.loadAll();
 
   }
@@ -54,9 +57,8 @@ export class StudentCursComponent implements OnInit {
         this.studentCurs = this.studentCurs.filter((note) => note.student?.mail === this.accountDetails?.email);
     }
     if (this.accountDetails?.authorities[0] === 'ROLE_PROFESOR') {
-        this.getProfesors();
         if(this.profesorDetails){
-            this.studentCurs = this.studentCurs.filter((note) => note.curs?.profesor?.id === this.profesorDetails?.id);
+            this.studentCurs = this.studentCurs.filter((note) => note.curs?.profesorId === this.profesorDetails?.id);
         }
         else {
             this.studentCurs = this.studentCurs.filter((note) => note.curs?.profesor?.id === -1);
