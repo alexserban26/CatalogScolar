@@ -35,60 +35,57 @@
   <div class="table-responsive" id="entities" *ngIf="curs && curs.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
-        <tr>
-          <th scope="col"><span>ID</span></th>
-          <th scope="col"><span>Nume</span></th>
-          <th scope="col"><span>Profesor</span></th>
-          <th scope="col"></th>
-        </tr>
+          <tr>
+              <!--<th scope="col"><span>ID</span></th>-->
+              <th scope="col"><span>Nume</span></th>
+              <th scope="col"><span>Profesor</span></th>
+              <th scope="col"></th>
+          </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let curs of curs; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/curs', curs.id, 'view']">{{ curs.id }}</a>
-          </td>
-          <td>{{ curs.nume }}</td>
-          <td>
-            <div *ngIf="curs.profesor">
-              <a [routerLink]="['/profesor', curs.profesor?.id, 'view']">{{
+          <tr *ngFor="let curs of curs; trackBy: trackId" data-cy="entityTable">
+              <!--<td>
+        <a [routerLink]="['/curs', curs.id, 'view']">{{ curs.id }}</a>
+    </td>-->
+              <td>{{ curs.nume }}</td>
+              <td>
+                  <div *ngIf="curs.profesor">
+                      <a [routerLink]="['/profesor', curs.profesor?.id, 'view']">
+                          {{
                 curs.profesor?.nume
-              }}</a>
-            </div>
-          </td>
-          <td class="text-end">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/curs', curs.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
-              </button>
+                          }}
+                      </a>
+                  </div>
+              </td>
+              <td class="text-end">
+                  <div class="btn-group">
+                      <button type="submit"
+                              [routerLink]="['/curs', curs.id, 'view']"
+                              class="btn btn-info btn-sm"
+                              data-cy="entityDetailsButton">
+                          <fa-icon icon="eye"></fa-icon>
+                          <span class="d-none d-md-inline">View</span>
+                      </button>
 
-              <button
-                type="submit"
-                [routerLink]="['/curs', curs.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
-              </button>
+                      <button type="submit"
+                              [routerLink]="['/curs', curs.id, 'edit']"
+                              class="btn btn-primary btn-sm"
+                              data-cy="entityEditButton">
+                          <fa-icon icon="pencil-alt"></fa-icon>
+                          <span class="d-none d-md-inline">Edit</span>
+                      </button>
 
-              <button
-                type="submit"
-                (click)="delete(curs)"
-                class="btn btn-danger btn-sm"
-                data-cy="entityDeleteButton"
-              >
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
-              </button>
-            </div>
-          </td>
-        </tr>
+                      <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR']"
+                              type="submit"
+                              (click)="delete(curs)"
+                              class="btn btn-danger btn-sm"
+                              data-cy="entityDeleteButton">
+                          <fa-icon icon="times"></fa-icon>
+                          <span class="d-none d-md-inline">Delete</span>
+                      </button>
+                  </div>
+              </td>
+          </tr>
       </tbody>
     </table>
   </div>
