@@ -1,3 +1,4 @@
+import { AccountService } from './../../../core/auth/account.service';
 import { Component, OnInit } from "@angular/core";
 import { HttpResponse } from "@angular/common/http";
 import { FormBuilder, Validators } from "@angular/forms";
@@ -11,6 +12,7 @@ import { IStudent } from "app/entities/student/student.model";
 import { StudentService } from "app/entities/student/service/student.service";
 import { ICurs } from "app/entities/curs/curs.model";
 import { CursService } from "app/entities/curs/service/curs.service";
+import { Account } from "app/core/auth/account.model";
 
 @Component({
   selector: "jhi-student-curs-update",
@@ -21,6 +23,8 @@ export class StudentCursUpdateComponent implements OnInit {
 
   studentsSharedCollection: IStudent[] = [];
   cursSharedCollection: ICurs[] = [];
+  accountDetails: any;
+
 
   editForm = this.fb.group({
     id: [],
@@ -34,13 +38,14 @@ export class StudentCursUpdateComponent implements OnInit {
     protected studentService: StudentService,
     protected cursService: CursService,
     protected activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    protected accountService: AccountService
   ) {}
 
   ngOnInit(): void {
+    this.accountDetails = this.accountService.userIdentity;
     this.activatedRoute.data.subscribe(({ studentCurs }) => {
       this.updateForm(studentCurs);
-
       this.loadRelationshipsOptions();
     });
   }
@@ -134,7 +139,10 @@ export class StudentCursUpdateComponent implements OnInit {
           )
         )
       )
-      .subscribe((curs: ICurs[]) => (this.cursSharedCollection = curs));
+      .subscribe((curs: ICurs[]) => (
+        this.cursSharedCollection = (this.accountDetails?.authorities[0]=== 'ROLE_PROFESOR')?
+        curs.filter((c) => c.profesor?.mail === this.accountDetails?.email):
+        curs))
   }
 
   protected createFromForm(): IStudentCurs {
