@@ -1,5 +1,5 @@
 import { NgModule, LOCALE_ID } from "@angular/core";
-import { registerLocaleData } from "@angular/common";
+import { DatePipe, registerLocaleData } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import locale from "@angular/common/locales/ro";
 import { BrowserModule, Title } from "@angular/platform-browser";
@@ -45,6 +45,7 @@ import { ErrorComponent } from "./layouts/error/error.component";
   ],
   providers: [
     Title,
+    DatePipe,
     { provide: LOCALE_ID, useValue: "ro" },
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,

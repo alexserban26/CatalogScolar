@@ -10,7 +10,8 @@ import { IStudentCurs } from "../student-curs.model";
 import { StudentCursService } from "../service/student-curs.service";
 import { StudentCursDeleteDialogComponent } from "../delete/student-curs-delete-dialog.component";
 import { IProfesor, Profesor } from 'app/entities/profesor/profesor.model';
-import { AnyForUntypedForms } from '@angular/forms';
+import jsPDF from 'jspdf';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: "jhi-student-curs",
@@ -27,7 +28,8 @@ export class StudentCursComponent implements OnInit {
     protected studentCursService: StudentCursService,
     protected modalService: NgbModal,
     protected accountService: AccountService,
-    protected profesorService: ProfesorService
+    protected profesorService: ProfesorService,
+    private datePipe: DatePipe
   ) {}
 
   loadAll(): void {
@@ -99,11 +101,25 @@ export class StudentCursComponent implements OnInit {
       backdrop: "static",
     });
     modalRef.componentInstance.studentCurs = studentCurs;
-    // unsubscribe not needed because closed completes on modal close
     modalRef.closed.subscribe((reason) => {
       if (reason === "deleted") {
         this.loadAll();
       }
     });
+  }
+
+  public openPDF(): void {
+    const doc = new jsPDF('p', 'mm', 'a4');
+    const name: string = this.studentCurs[0].student?.nume;
+    const date: string = this.datePipe.transform(new Date(), 'dd-MM-yyyy')!;
+    doc.setFontSize(22);
+    doc.text('Adeverinta', 80, 20);
+
+    doc.setFontSize(16);
+    doc.text('Studentul '+name, 40, 50);
+    doc.text(' este inscris in anul universitar 2022-2023, forma de invatamant IF.', 15, 60);
+    doc.text( 'Data: ' + date, 50, 80);
+
+    doc.save('adeverintaStudent.pdf');
   }
 }
