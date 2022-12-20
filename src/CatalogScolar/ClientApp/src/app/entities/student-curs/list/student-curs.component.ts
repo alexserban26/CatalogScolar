@@ -10,6 +10,7 @@ import { IStudentCurs } from "../student-curs.model";
 import { StudentCursService } from "../service/student-curs.service";
 import { StudentCursDeleteDialogComponent } from "../delete/student-curs-delete-dialog.component";
 import { IProfesor, Profesor } from 'app/entities/profesor/profesor.model';
+import { AnyForUntypedForms } from '@angular/forms';
 
 @Component({
   selector: "jhi-student-curs",
@@ -20,6 +21,7 @@ export class StudentCursComponent implements OnInit {
   isLoading = false;
   accountDetails!: Account | null;
   profesorDetails!: Profesor | null;
+  averageGrade: any;
 
   constructor(
     protected studentCursService: StudentCursService,
@@ -49,12 +51,12 @@ export class StudentCursComponent implements OnInit {
         this.getProfesors();
     }
     this.loadAll();
-
   }
 
   filterDataByAccount(): void {
     if (this.accountDetails?.authorities[0] === 'ROLE_STUDENT'){
         this.studentCurs = this.studentCurs.filter((note) => note.student?.mail === this.accountDetails?.email);
+        this.getAverage();
     }
     if (this.accountDetails?.authorities[0] === 'ROLE_PROFESOR') {
         if(this.profesorDetails){
@@ -81,6 +83,14 @@ export class StudentCursComponent implements OnInit {
         this.isLoading = false;
         },
     });
+  }
+
+  getAverage(): void {
+    if(this.accountDetails?.authorities[0] === 'ROLE_STUDENT'){
+        let sum = 0;
+        this.studentCurs.forEach(function(item){sum+=item.nota;});
+        this.averageGrade = sum / this.studentCurs.length;
+    }
   }
 
   delete(studentCurs: IStudentCurs): void {

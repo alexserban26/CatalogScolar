@@ -41,6 +41,7 @@
     id="entities"
     *ngIf="studentCurs && studentCurs.length > 0"
   >
+    <div *jhiHasAnyAuthority="['ROLE_STUDENT']">Media: {{averageGrade}}</div>
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr>
