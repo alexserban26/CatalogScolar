@@ -25,6 +25,7 @@ describe("StudentCurs Service", () => {
     elemDefault = {
       id: 0,
       nota: 0,
+      anScolar: "AAAAAAA",
     };
   });
 
@@ -63,6 +64,7 @@ describe("StudentCurs Service", () => {
         {
           id: 1,
           nota: 1,
+          anScolar: "BBBBBB",
         },
         elemDefault
       );
@@ -104,6 +106,7 @@ describe("StudentCurs Service", () => {
         {
           id: 1,
           nota: 1,
+          anScolar: "BBBBBB",
         },
         elemDefault
       );
@@ -167,7 +170,7 @@ describe("StudentCurs Service", () => {
         const studentCursArray: IStudentCurs[] = [
           { id: 123 },
           { id: 456 },
-          { id: 41219 },
+          { id: 68310 },
         ];
         const studentCursCollection: IStudentCurs[] = [{ id: 123 }];
         expectedResult = service.addStudentCursToCollectionIfMissing(

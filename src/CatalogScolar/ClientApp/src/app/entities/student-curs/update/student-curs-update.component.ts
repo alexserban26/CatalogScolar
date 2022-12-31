@@ -29,6 +29,7 @@ export class StudentCursUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     nota: [null, [Validators.required]],
+    anScolar: [null, [Validators.required]],
     student: [],
     curs: [],
   });
@@ -46,6 +47,7 @@ export class StudentCursUpdateComponent implements OnInit {
     this.accountDetails = this.accountService.userIdentity;
     this.activatedRoute.data.subscribe(({ studentCurs }) => {
       this.updateForm(studentCurs);
+
       this.loadRelationshipsOptions();
     });
   }
@@ -97,6 +99,7 @@ export class StudentCursUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: studentCurs.id,
       nota: studentCurs.nota,
+      anScolar: studentCurs.anScolar,
       student: studentCurs.student,
       curs: studentCurs.curs,
     });
@@ -150,6 +153,7 @@ export class StudentCursUpdateComponent implements OnInit {
       ...new StudentCurs(),
       id: this.editForm.get(["id"])!.value,
       nota: this.editForm.get(["nota"])!.value,
+      anScolar: this.editForm.get(["anScolar"])!.value,
       student: this.editForm.get(["student"])!.value,
       curs: this.editForm.get(["curs"])!.value,
     };

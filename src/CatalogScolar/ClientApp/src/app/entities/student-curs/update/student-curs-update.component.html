@@ -62,6 +62,32 @@
         </div>
 
         <div class="row mb-3">
+          <label class="form-label" for="field_an_scolar">An Scolar</label>
+          <input
+            type="text"
+            class="form-control"
+            name="anScolar"
+            id="field_an_scolar"
+            data-cy="anScolar"
+            formControlName="anScolar"
+          />
+          <div
+            *ngIf="
+              editForm.get('anScolar')!.invalid &&
+              (editForm.get('anScolar')!.dirty ||
+                editForm.get('anScolar')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('anScolar')?.errors?.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" for="field_student">Student</label>
           <select
             class="form-control"

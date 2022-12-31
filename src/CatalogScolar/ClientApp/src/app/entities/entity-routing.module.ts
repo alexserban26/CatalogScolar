@@ -208,6 +208,58 @@ import { RouterModule } from "@angular/router";
             (m) => m.StudentCursModule
           ),
       },
+      {
+        path: "student-curs",
+        data: { pageTitle: "StudentCurs" },
+        loadChildren: () =>
+          import("./student-curs/student-curs.module").then(
+            (m) => m.StudentCursModule
+          ),
+      },
+      {
+        path: "profesor",
+        data: { pageTitle: "Profesors" },
+        loadChildren: () =>
+          import("./profesor/profesor.module").then((m) => m.ProfesorModule),
+      },
+      {
+        path: "curs",
+        data: { pageTitle: "Curs" },
+        loadChildren: () =>
+          import("./curs/curs.module").then((m) => m.CursModule),
+      },
+      {
+        path: "student",
+        data: { pageTitle: "Students" },
+        loadChildren: () =>
+          import("./student/student.module").then((m) => m.StudentModule),
+      },
+      {
+        path: "student-curs",
+        data: { pageTitle: "StudentCurs" },
+        loadChildren: () =>
+          import("./student-curs/student-curs.module").then(
+            (m) => m.StudentCursModule
+          ),
+      },
+      {
+        path: "profesor",
+        data: { pageTitle: "Profesors" },
+        loadChildren: () =>
+          import("./profesor/profesor.module").then((m) => m.ProfesorModule),
+      },
+      {
+        path: "curs",
+        data: { pageTitle: "Curs" },
+        loadChildren: () =>
+          import("./curs/curs.module").then((m) => m.CursModule),
+      },
+      {
+        path: "student",
+        data: { pageTitle: "Students" },
+        loadChildren: () =>
+          import("./student/student.module").then((m) => m.StudentModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

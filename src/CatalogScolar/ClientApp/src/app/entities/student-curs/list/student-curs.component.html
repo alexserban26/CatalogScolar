@@ -1,113 +1,124 @@
 <div>
-  <h2 id="page-heading" data-cy="StudentCursHeading">
-    <span>Student Curs</span>
+    <h2 id="page-heading" data-cy="StudentCursHeading">
+      <span>Student Curs</span>
 
-    <div class="d-flex justify-content-end">
-      <button
-        class="btn btn-info me-2"
-        (click)="loadAll()"
-        [disabled]="isLoading"
-      >
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh List</span>
-      </button>
+      <div class="d-flex justify-content-end">
+        <button
+          class="btn btn-info me-2"
+          (click)="loadAll()"
+          [disabled]="isLoading"
+        >
+          <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+          <span>Refresh List</span>
+        </button>
 
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-student-curs"
-        [routerLink]="['/student-curs/new']"
-      >
-        <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Student Curs </span>
-      </button>
+        <button
+          id="jh-create-entity"
+          data-cy="entityCreateButton"
+          class="btn btn-primary jh-create-entity create-student-curs"
+          [routerLink]="['/student-curs/new']"
+        >
+          <fa-icon icon="plus"></fa-icon>
+          <span> Create a new Student Curs </span>
+        </button>
+      </div>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div
+      class="alert alert-warning"
+      id="no-result"
+      *ngIf="studentCurs?.length === 0"
+    >
+      <span>No studentCurs found</span>
     </div>
-  </h2>
 
-  <jhi-alert-error></jhi-alert-error>
-
-  <jhi-alert></jhi-alert>
-
-  <div
-    class="alert alert-warning"
-    id="no-result"
-    *ngIf="studentCurs?.length === 0"
-  >
-    <span>No studentCurs found</span>
-  </div>
-
-  <div
-    class="table-responsive"
-    id="entities"
-    *ngIf="studentCurs && studentCurs.length > 0"
-  >
-    <div *jhiHasAnyAuthority="['ROLE_STUDENT']" style="float: left;"> Media: {{averageGrade}}</div>
-        <div class="col-md-4 text-right" style="float: right;">
-            <button class="btn btn-success btn-block" (click)="openPDF()">Download PDF</button>
-        </div>
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr>
-          <th scope="col"><span>Nota</span></th>
-          <th scope="col"><span>Student</span></th>
-          <th scope="col"><span>Curs</span></th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr *ngFor="let studentCurs of studentCurs; trackBy: trackId"
-              data-cy="entityTable">
-              <td>{{ studentCurs.nota }}</td>
-              <td>
-                  <div *ngIf="studentCurs.student">
-                      <a [routerLink]="['/student', studentCurs.student?.id, 'view']">
-                          {{
-                studentCurs.student?.nume
-                          }}
-                      </a>
-                  </div>
-              </td>
-              <td>
-                  <div *ngIf="studentCurs.curs">
-                      <a [routerLink]="['/curs', studentCurs.curs?.id, 'view']">
-                          {{
-                studentCurs.curs?.nume
-                          }}
-                      </a>
-                  </div>
-              </td>
-              <td class="text-end">
-                  <div class="btn-group">
-                      <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR', 'ROLE_PROFESOR']"
-                              type="submit"
-                              [routerLink]="['/student-curs', studentCurs.id, 'view']"
-                              class="btn btn-info btn-sm"
-                              data-cy="entityDetailsButton">
-                          <fa-icon icon="eye"></fa-icon>
-                          <span class="d-none d-md-inline">View</span>
-                      </button>
-
-                      <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR', 'ROLE_PROFESOR']"
-                              type="submit"
-                              [routerLink]="['/student-curs', studentCurs.id, 'edit']"
-                              class="btn btn-primary btn-sm"
-                              data-cy="entityEditButton">
-                          <fa-icon icon="pencil-alt"></fa-icon>
-                          <span class="d-none d-md-inline">Edit</span>
-                      </button>
-
-                      <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR']"
-                              type="submit"
-                              (click)="delete(studentCurs)"
-                              class="btn btn-danger btn-sm"
-                              data-cy="entityDeleteButton">
-                          <fa-icon icon="times"></fa-icon>
-                          <span class="d-none d-md-inline">Delete</span>
-                      </button>
-                  </div>
-              </td>
+    <div
+      class="table-responsive"
+      id="entities"
+      *ngIf="studentCurs && studentCurs.length > 0"
+    >
+      <div *jhiHasAnyAuthority="['ROLE_STUDENT']" style="float: left;"> Media: {{averageGrade}}</div>
+          <div class="col-md-4 text-right" style="float: right;">
+              <button class="btn btn-success btn-block" (click)="openPDF()">Download PDF</button>
+          </div>
+          <mat-form-field appearance="fill">
+            <mat-label>Select an option</mat-label>
+            <mat-select [(value)]="selected">
+              <mat-option>None</mat-option>
+              <mat-option value="option1">Option 1</mat-option>
+              <mat-option value="option2">Option 2</mat-option>
+              <mat-option value="option3">Option 3</mat-option>
+            </mat-select>
+          </mat-form-field>
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr>
+            <th scope="col"><span>Nota</span></th>
+            <th scope="col"><span>Student</span></th>
+            <th scope="col"><span>Curs</span></th>
+            <th scope="col"><span>An Scolar</span></th>
+            <th scope="col"></th>
           </tr>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+            <tr *ngFor="let studentCurs of studentCurs; trackBy: trackId"
+                data-cy="entityTable">
+                <td>{{ studentCurs.nota }}</td>
+                <td>
+                    <div *ngIf="studentCurs.student">
+                        <a [routerLink]="['/student', studentCurs.student?.id, 'view']">
+                            {{
+                  studentCurs.student?.nume
+                            }}
+                        </a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="studentCurs.curs">
+                        <a [routerLink]="['/curs', studentCurs.curs?.id, 'view']">
+                            {{
+                  studentCurs.curs?.nume
+                            }}
+                        </a>
+                    </div>
+                </td>
+                <td>{{ studentCurs.anScolar }}</td>
+                <td class="text-end">
+                    <div class="btn-group">
+                        <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR', 'ROLE_PROFESOR']"
+                                type="submit"
+                                [routerLink]="['/student-curs', studentCurs.id, 'view']"
+                                class="btn btn-info btn-sm"
+                                data-cy="entityDetailsButton">
+                            <fa-icon icon="eye"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+
+                        <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR', 'ROLE_PROFESOR']"
+                                type="submit"
+                                [routerLink]="['/student-curs', studentCurs.id, 'edit']"
+                                class="btn btn-primary btn-sm"
+                                data-cy="entityEditButton">
+                            <fa-icon icon="pencil-alt"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+
+                        <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR']"
+                                type="submit"
+                                (click)="delete(studentCurs)"
+                                class="btn btn-danger btn-sm"
+                                data-cy="entityDeleteButton">
+                            <fa-icon icon="times"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>

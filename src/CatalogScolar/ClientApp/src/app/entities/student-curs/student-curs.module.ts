@@ -1,3 +1,5 @@
+import { MatSelectModule } from '@angular/material/select';
+import { CommonModule } from '@angular/common';
 import { NgModule } from "@angular/core";
 import { SharedModule } from "app/shared/shared.module";
 import { StudentCursComponent } from "./list/student-curs.component";
@@ -7,7 +9,12 @@ import { StudentCursDeleteDialogComponent } from "./delete/student-curs-delete-d
 import { StudentCursRoutingModule } from "./route/student-curs-routing.module";
 
 @NgModule({
-  imports: [SharedModule, StudentCursRoutingModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    StudentCursRoutingModule,
+    MatSelectModule,
+],
   declarations: [
     StudentCursComponent,
     StudentCursDetailComponent,

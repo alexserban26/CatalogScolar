@@ -23,6 +23,7 @@ export class StudentCursComponent implements OnInit {
   accountDetails!: Account | null;
   profesorDetails!: Profesor | null;
   averageGrade: any;
+  selected = '';
 
   constructor(
     protected studentCursService: StudentCursService,

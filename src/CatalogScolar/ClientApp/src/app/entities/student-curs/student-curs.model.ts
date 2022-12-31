@@ -4,6 +4,7 @@ import { ICurs } from "app/entities/curs/curs.model";
 export interface IStudentCurs {
   id?: number;
   nota?: number;
+  anScolar?: string;
   student?: IStudent | null;
   curs?: ICurs | null;
 }
@@ -12,6 +13,7 @@ export class StudentCurs implements IStudentCurs {
   constructor(
     public id?: number,
     public nota?: number,
+    public anScolar?: string,
     public student?: IStudent | null,
     public curs?: ICurs | null
   ) {}
