@@ -10,6 +10,8 @@ namespace CatalogScolar.Domain.Entities
     {
         [Required]
         public int? Nota { get; set; }
+        [Required]
+        public string AnScolar { get; set; }
         public long? StudentId { get; set; }
         public Student Student { get; set; }
         public long? CursId { get; set; }
@@ -36,6 +38,7 @@ namespace CatalogScolar.Domain.Entities
             return "StudentCurs{" +
                     $"ID='{Id}'" +
                     $", Nota='{Nota}'" +
+                    $", AnScolar='{AnScolar}'" +
                     "}";
         }
     }

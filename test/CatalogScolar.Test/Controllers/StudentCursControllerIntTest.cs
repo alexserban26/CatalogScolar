@@ -30,6 +30,9 @@ namespace CatalogScolar.Test.Controllers
         private static readonly int? DefaultNota = 1;
         private static readonly int? UpdatedNota = 2;
 
+        private const string DefaultAnScolar = "AAAAAAAAAA";
+        private const string UpdatedAnScolar = "BBBBBBBBBB";
+
         private readonly AppWebApplicationFactory<TestStartup> _factory;
         private readonly HttpClient _client;
         private readonly IStudentCursRepository _studentCursRepository;
@@ -42,6 +45,7 @@ namespace CatalogScolar.Test.Controllers
             return new StudentCurs
             {
                 Nota = DefaultNota,
+                AnScolar = DefaultAnScolar,
             };
         }
 
@@ -64,6 +68,7 @@ namespace CatalogScolar.Test.Controllers
             studentCursList.Count().Should().Be(databaseSizeBeforeCreate + 1);
             var testStudentCurs = studentCursList.Last();
             testStudentCurs.Nota.Should().Be(DefaultNota);
+            testStudentCurs.AnScolar.Should().Be(DefaultAnScolar);
         }
 
         [Fact]
@@ -99,6 +104,22 @@ namespace CatalogScolar.Test.Controllers
         }
 
         [Fact]
+        public async Task CheckAnScolarIsRequired()
+        {
+            var databaseSizeBeforeTest = await _studentCursRepository.CountAsync();
+
+            // Set the field to null
+            _studentCurs.AnScolar = null;
+
+            // Create the StudentCurs, which fails.
+            var response = await _client.PostAsync("/api/student-curs", TestUtil.ToJsonContent(_studentCurs));
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var studentCursList = await _studentCursRepository.GetAllAsync();
+            studentCursList.Count().Should().Be(databaseSizeBeforeTest);
+        }
+
+        [Fact]
         public async Task GetAllStudentCurs()
         {
             // Initialize the database
@@ -112,6 +133,7 @@ namespace CatalogScolar.Test.Controllers
             var json = JToken.Parse(await response.Content.ReadAsStringAsync());
             json.SelectTokens("$.[*].id").Should().Contain(_studentCurs.Id);
             json.SelectTokens("$.[*].nota").Should().Contain(DefaultNota);
+            json.SelectTokens("$.[*].anScolar").Should().Contain(DefaultAnScolar);
         }
 
         [Fact]
@@ -128,6 +150,7 @@ namespace CatalogScolar.Test.Controllers
             var json = JToken.Parse(await response.Content.ReadAsStringAsync());
             json.SelectTokens("$.id").Should().Contain(_studentCurs.Id);
             json.SelectTokens("$.nota").Should().Contain(DefaultNota);
+            json.SelectTokens("$.anScolar").Should().Contain(DefaultAnScolar);
         }
 
         [Fact]
@@ -151,6 +174,7 @@ namespace CatalogScolar.Test.Controllers
             // Disconnect from session so that the updates on updatedStudentCurs are not directly saved in db
             //TODO detach
             updatedStudentCurs.Nota = UpdatedNota;
+            updatedStudentCurs.AnScolar = UpdatedAnScolar;
 
             var response = await _client.PutAsync($"/api/student-curs/{_studentCurs.Id}", TestUtil.ToJsonContent(updatedStudentCurs));
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -160,6 +184,7 @@ namespace CatalogScolar.Test.Controllers
             studentCursList.Count().Should().Be(databaseSizeBeforeUpdate);
             var testStudentCurs = studentCursList.Last();
             testStudentCurs.Nota.Should().Be(UpdatedNota);
+            testStudentCurs.AnScolar.Should().Be(UpdatedAnScolar);
         }
 
         [Fact]
