@@ -1,4 +1,3 @@
-import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from "@angular/core";
 import { SharedModule } from "app/shared/shared.module";
@@ -13,7 +12,7 @@ import { StudentCursRoutingModule } from "./route/student-curs-routing.module";
     CommonModule,
     SharedModule,
     StudentCursRoutingModule,
-    MatSelectModule,
+    
 ],
   declarations: [
     StudentCursComponent,

@@ -39,22 +39,29 @@
     <div
       class="table-responsive"
       id="entities"
-      *ngIf="studentCurs && studentCurs.length > 0"
     >
       <div *jhiHasAnyAuthority="['ROLE_STUDENT']" style="float: left;"> Media: {{averageGrade}}</div>
           <div class="col-md-4 text-right" style="float: right;">
               <button class="btn btn-success btn-block" (click)="openPDF()">Download PDF</button>
+              <select aria-label="Default select example"
+              [(ngModel)]="selected"
+              (change)="loadAll()"
+              >
+                <option value="default">Toti anii</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+              </select>
           </div>
-          <mat-form-field appearance="fill">
-            <mat-label>Select an option</mat-label>
-            <mat-select [(value)]="selected">
-              <mat-option>None</mat-option>
-              <mat-option value="option1">Option 1</mat-option>
-              <mat-option value="option2">Option 2</mat-option>
-              <mat-option value="option3">Option 3</mat-option>
-            </mat-select>
-          </mat-form-field>
-      <table class="table table-striped" aria-describedby="page-heading">
+
+        <table
+        class="table table-striped" aria-describedby="page-heading"
+        mdbTable
+        mdbTableSort
+        *ngIf="studentCurs && studentCurs.length > 0"
+  >
         <thead>
           <tr>
             <th scope="col"><span>Nota</span></th>

@@ -4,8 +4,6 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Component, OnInit } from "@angular/core";
 import { HttpResponse } from "@angular/common/http";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-
-
 import { IStudentCurs } from "../student-curs.model";
 import { StudentCursService } from "../service/student-curs.service";
 import { StudentCursDeleteDialogComponent } from "../delete/student-curs-delete-dialog.component";
@@ -23,7 +21,7 @@ export class StudentCursComponent implements OnInit {
   accountDetails!: Account | null;
   profesorDetails!: Profesor | null;
   averageGrade: any;
-  selected = '';
+  selected = 'default';
 
   constructor(
     protected studentCursService: StudentCursService,
@@ -69,6 +67,10 @@ export class StudentCursComponent implements OnInit {
             this.studentCurs = this.studentCurs.filter((note) => note.curs?.profesor?.id === -1);
         }
     }
+    if (this.selected !== 'default'){
+        this.studentCurs = this.studentCurs.filter((note) => note.anScolar === this.selected);
+        this.getAverage();
+    }
     }
 
   trackId(_index: number, item: IStudentCurs): number {
@@ -93,6 +95,8 @@ export class StudentCursComponent implements OnInit {
         let sum = 0;
         this.studentCurs.forEach(function(item){sum+=item.nota;});
         this.averageGrade = sum / this.studentCurs.length;
+    } else{
+        this.averageGrade = 0;
     }
   }
 
@@ -123,4 +127,7 @@ export class StudentCursComponent implements OnInit {
 
     doc.save('adeverintaStudent.pdf');
   }
+
+
 }
+

@@ -3,7 +3,6 @@ import { DatePipe, registerLocaleData } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import locale from "@angular/common/locales/ro";
 import { BrowserModule, Title } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { NgxWebstorageModule } from "ngx-webstorage";
@@ -31,12 +30,9 @@ import { ErrorComponent } from "./layouts/error/error.component";
 @NgModule({
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     SharedModule,
     HomeModule,
-    // jhipster-needle-angular-add-module JHipster will add new module here
     AppRoutingModule,
-    // Set this to true to enable service worker (PWA)
     ServiceWorkerModule.register("ngsw-worker.js", { enabled: false }),
     HttpClientModule,
     NgxWebstorageModule.forRoot({
