@@ -10,6 +10,7 @@ import { StudentCursDeleteDialogComponent } from "../delete/student-curs-delete-
 import { IProfesor, Profesor } from 'app/entities/profesor/profesor.model';
 import jsPDF from 'jspdf';
 import { DatePipe } from '@angular/common';
+import { compare, SortEvent } from 'app/sortable-header.directive';
 
 @Component({
   selector: "jhi-student-curs",
@@ -126,6 +127,17 @@ export class StudentCursComponent implements OnInit {
     doc.text( 'Data: ' + date, 50, 80);
 
     doc.save('adeverintaStudent.pdf');
+  }
+
+  onSort({ column, direction }: SortEvent): void {
+
+    // sorting countries
+    if (direction !== '' && column !== '') {
+      this.studentCurs = [...this.studentCurs].sort((a, b) => {
+        const res = compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
   }
 
 

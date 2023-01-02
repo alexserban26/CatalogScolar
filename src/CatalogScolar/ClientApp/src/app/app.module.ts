@@ -4,6 +4,7 @@ import { HttpClientModule } from "@angular/common/http";
 import locale from "@angular/common/locales/ro";
 import { BrowserModule, Title } from "@angular/platform-browser";
 import { ServiceWorkerModule } from "@angular/service-worker";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { NgxWebstorageModule } from "ngx-webstorage";
 import dayjs from "dayjs/esm";
@@ -26,10 +27,12 @@ import { NavbarComponent } from "./layouts/navbar/navbar.component";
 import { FooterComponent } from "./layouts/footer/footer.component";
 import { PageRibbonComponent } from "./layouts/profiles/page-ribbon.component";
 import { ErrorComponent } from "./layouts/error/error.component";
+import { SortableHeaderDirective } from "./sortable-header.directive";
 
 @NgModule({
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     SharedModule,
     HomeModule,
     AppRoutingModule,

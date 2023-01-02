@@ -1,6 +1,6 @@
 <div>
     <h2 id="page-heading" data-cy="StudentCursHeading">
-      <span>Student Curs</span>
+      <span>Note</span>
 
       <div class="d-flex justify-content-end">
         <button
@@ -9,7 +9,7 @@
           [disabled]="isLoading"
         >
           <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-          <span>Refresh List</span>
+          <span>Refresh</span>
         </button>
 
         <button
@@ -17,9 +17,10 @@
           data-cy="entityCreateButton"
           class="btn btn-primary jh-create-entity create-student-curs"
           [routerLink]="['/student-curs/new']"
-        >
+          *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR', 'ROLE_PROFESOR']"
+          >
           <fa-icon icon="plus"></fa-icon>
-          <span> Create a new Student Curs </span>
+          <span>  Adaugati o nota noua </span>
         </button>
       </div>
     </h2>
@@ -33,7 +34,7 @@
       id="no-result"
       *ngIf="studentCurs?.length === 0"
     >
-      <span>No studentCurs found</span>
+      <span>Nu au fost gasite inregistrari</span>
     </div>
 
     <div
@@ -41,8 +42,8 @@
       id="entities"
     >
       <div *jhiHasAnyAuthority="['ROLE_STUDENT']" style="float: left;"> Media: {{averageGrade}}</div>
-          <div class="col-md-4 text-right" style="float: right;">
-              <button class="btn btn-success btn-block" (click)="openPDF()">Download PDF</button>
+          <div class="col-md-4 text-right" style="float: right;" *jhiHasAnyAuthority="['ROLE_STUDENT']">
+              <button class="btn btn-success btn-block" (click)="openPDF()">Obtine adeverinta</button>
               <select aria-label="Default select example"
               [(ngModel)]="selected"
               (change)="loadAll()"
@@ -58,15 +59,13 @@
 
         <table
         class="table table-striped" aria-describedby="page-heading"
-        mdbTable
-        mdbTableSort
         *ngIf="studentCurs && studentCurs.length > 0"
   >
         <thead>
           <tr>
-            <th scope="col"><span>Nota</span></th>
+            <th scope="col" sortable="nota" (sort)="onSort($event)"><span>Nota</span></th>
             <th scope="col"><span>Student</span></th>
-            <th scope="col"><span>Curs</span></th>
+            <th scope="col" sortable="nume" (sort)="onSort($event)"><span>Curs</span></th>
             <th scope="col"><span>An Scolar</span></th>
             <th scope="col"></th>
           </tr>

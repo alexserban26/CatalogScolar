@@ -6,15 +6,17 @@ import { StudentCursDetailComponent } from "./detail/student-curs-detail.compone
 import { StudentCursUpdateComponent } from "./update/student-curs-update.component";
 import { StudentCursDeleteDialogComponent } from "./delete/student-curs-delete-dialog.component";
 import { StudentCursRoutingModule } from "./route/student-curs-routing.module";
+import { SortableHeaderDirective } from 'app/sortable-header.directive';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     StudentCursRoutingModule,
-    
+
 ],
   declarations: [
+    SortableHeaderDirective,
     StudentCursComponent,
     StudentCursDetailComponent,
     StudentCursUpdateComponent,
