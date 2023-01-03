@@ -131,7 +131,6 @@ export class StudentCursComponent implements OnInit {
 
   onSort({ column, direction }: SortEvent): void {
 
-    // sorting countries
     if (direction !== '' && column !== '') {
       this.studentCurs = [...this.studentCurs].sort((a, b) => {
         const res = compare(a[column], b[column]);

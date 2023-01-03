@@ -9,17 +9,18 @@
         [disabled]="isLoading"
       >
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh List</span>
+        <span>Refresh</span>
       </button>
 
       <button
+      *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR']"
         id="jh-create-entity"
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-profesor"
         [routerLink]="['/profesor/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Profesor </span>
+        <span> Adaugati un nou profesor </span>
       </button>
     </div>
   </h2>

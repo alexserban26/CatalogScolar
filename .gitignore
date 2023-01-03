@@ -317,3 +317,4 @@ _Pvt_Extensions
 #IntelliJ
 .idea/
 **/ClientApp/target/
+src/CatalogScolar/ClientApp/node_modules.7z

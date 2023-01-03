@@ -43,6 +43,6 @@ export class UserManagementService {
   }
 
   authorities(): Observable<string[]> {
-    return of([Authority.ADMIN, Authority.USER, Authority.PROFESOR, Authority.STUDENT]);
+    return of([Authority.ADMIN, Authority.USER, Authority.PROFESOR, Authority.STUDENT, Authority.SECRETAR]);
   }
 }
