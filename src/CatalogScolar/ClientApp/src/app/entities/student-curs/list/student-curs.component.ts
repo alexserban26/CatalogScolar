@@ -23,6 +23,7 @@ export class StudentCursComponent implements OnInit {
   profesorDetails!: Profesor | null;
   averageGrade: any;
   selected = 'default';
+  isEnroled = false;
 
   constructor(
     protected studentCursService: StudentCursService,
@@ -59,6 +60,7 @@ export class StudentCursComponent implements OnInit {
     if (this.accountDetails?.authorities[0] === 'ROLE_STUDENT'){
         this.studentCurs = this.studentCurs.filter((note) => note.student?.mail === this.accountDetails?.email);
         this.getAverage();
+        this.studentCurs.filter((note) => note.anScolar === '2022').length >0 ?this.isEnroled=true: this.isEnroled=false;
     }
     if (this.accountDetails?.authorities[0] === 'ROLE_PROFESOR') {
         if(this.profesorDetails){
@@ -136,6 +138,13 @@ export class StudentCursComponent implements OnInit {
         const res = compare(a[column], b[column]);
         return direction === 'asc' ? res : -res;
       });
+    }
+
+    if(column === 'nume'){
+        this.studentCurs = [...this.studentCurs].sort((a, b) => {
+            const res = compare(a.curs[column], b.curs[column]);
+            return direction === 'asc' ? res : -res;
+          });
     }
   }
 

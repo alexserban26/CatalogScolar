@@ -43,7 +43,7 @@
     >
       <div *jhiHasAnyAuthority="['ROLE_STUDENT']" style="float: left;"> Media: {{averageGrade}}</div>
           <div class="col-md-4 text-right" style="float: right;" *jhiHasAnyAuthority="['ROLE_STUDENT']">
-              <button class="btn btn-success btn-block" (click)="openPDF()">Obtine adeverinta</button>
+              <button *ngIf="isEnroled" class="btn btn-success btn-block" (click)="openPDF()">Obtine adeverinta</button>
               <select aria-label="Default select example"
               [(ngModel)]="selected"
               (change)="loadAll()"
