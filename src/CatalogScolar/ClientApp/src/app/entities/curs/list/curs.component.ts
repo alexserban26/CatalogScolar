@@ -16,6 +16,7 @@ export class CursComponent implements OnInit {
   curs!: ICurs[];
   isLoading = false;
   accountDetails!: Account | null;
+  search = '';
 
   constructor(
     protected cursService: CursService,
@@ -31,6 +32,7 @@ export class CursComponent implements OnInit {
         this.isLoading = false;
         this.curs = res.body ?? [];
         this.filterDataByAccount();
+        this.filterBySearch();
       },
       error: () => {
         this.isLoading = false;
@@ -45,10 +47,16 @@ export class CursComponent implements OnInit {
 
     filterDataByAccount(): void {
         if (this.accountDetails?.authorities[0] === 'ROLE_PROFESOR') {
-            this.curs = this.curs.filter((note) => note.profesor?.mail === this.accountDetails?.email);
+            this.curs = this.curs.filter((curs) => curs.profesor?.mail === this.accountDetails?.email);
         }
     }
 
+    filterBySearch(): void {
+        if (this.search !== '') {
+            this.curs = this.curs.filter((curs) => curs.nume!.toLowerCase().includes(this.search.toLowerCase())
+                                        || curs.profesor!.nume!.toLowerCase().includes(this.search.toLowerCase()));
+        }
+    }
   trackId(_index: number, item: ICurs): number {
     return item.id!;
   }

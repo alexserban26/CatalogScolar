@@ -2,6 +2,8 @@
   <h2 id="page-heading" data-cy="CursHeading">
     <span>Curs</span>
 
+    <input type="search" class="form-control" [(ngModel)]="search" (change)="loadAll()" placeholder="Cautati dupa nume sau profesor">
+
     <div class="d-flex justify-content-end">
       <button
         class="btn btn-info me-2"
