@@ -3,25 +3,35 @@
       <span>Note</span>
 
       <div class="d-flex justify-content-end">
-        <button
-          class="btn btn-info me-2"
-          (click)="loadAll()"
-          [disabled]="isLoading"
-        >
-          <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-          <span>Refresh</span>
-        </button>
+          <button class="btn btn-info me-2"
+                  (click)="loadAll()"
+                  [disabled]="isLoading">
+              <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+              <span>Refresh</span>
+          </button>
 
-        <button
-          id="jh-create-entity"
-          data-cy="entityCreateButton"
-          class="btn btn-primary jh-create-entity create-student-curs"
-          [routerLink]="['/student-curs/new']"
-          *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR', 'ROLE_PROFESOR']"
-          >
-          <fa-icon icon="plus"></fa-icon>
-          <span>  Adaugati o nota noua </span>
-        </button>
+          <button id="jh-create-entity"
+                  data-cy="entityCreateButton"
+                  class="btn btn-primary me-2 jh-create-entity create-student-curs"
+                  [routerLink]="['/student-curs/new']"
+                  *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR', 'ROLE_PROFESOR']">
+              <fa-icon icon="plus"></fa-icon>
+              <span>  Adaugati o nota noua </span>
+          </button>
+
+          <button class="btn btn-secondary me-2"
+                  (click)="generatePdfFile()"
+                  *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SECRETAR']">
+              <fa-icon icon="download"></fa-icon>
+              <span> Descarca Catalog </span>
+          </button>
+
+          <button class="btn btn-primary me-2"
+                  (click)="openPDF()"
+                  *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_STUDENT']">
+              <fa-icon icon="download"></fa-icon>
+              <span> Obtine adeverinta </span>
+          </button>
       </div>
     </h2>
 
@@ -43,7 +53,6 @@
     >
       <div *jhiHasAnyAuthority="['ROLE_STUDENT']" style="float: left;"> Media: {{averageGrade}}</div>
           <div class="col-md-4 text-right" style="float: right;" *jhiHasAnyAuthority="['ROLE_STUDENT']">
-              <button *ngIf="isEnroled" class="btn btn-success btn-block" (click)="openPDF()">Obtine adeverinta</button>
               <select aria-label="Default select example"
               [(ngModel)]="selected"
               (change)="loadAll()"
@@ -59,8 +68,7 @@
 
         <table
         class="table table-striped" aria-describedby="page-heading"
-        *ngIf="studentCurs && studentCurs.length > 0"
-  >
+        *ngIf="studentCurs && studentCurs.length > 0" id="tableToPDF">
         <thead>
           <tr>
             <th scope="col" sortable="nota" (sort)="onSort($event)"><span>Nota</span></th>
