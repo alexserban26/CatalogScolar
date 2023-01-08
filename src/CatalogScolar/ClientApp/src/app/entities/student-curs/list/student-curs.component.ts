@@ -9,6 +9,7 @@ import { StudentCursService } from "../service/student-curs.service";
 import { StudentCursDeleteDialogComponent } from "../delete/student-curs-delete-dialog.component";
 import { IProfesor, Profesor } from 'app/entities/profesor/profesor.model';
 import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { DatePipe } from '@angular/common';
 import { compare, SortEvent } from 'app/sortable-header.directive';
 
@@ -46,6 +47,21 @@ export class StudentCursComponent implements OnInit {
       },
     }
     );
+  }
+
+  generatePdfFile(): void {
+      const doc = new jsPDF();
+      
+      doc.setFontSize(22);
+      doc.text('Catalog', 80, 20);
+
+      autoTable(doc, {
+          theme: 'plain',
+          html: "#tableToPDF",
+          margin: { top: 40, left: 25 }, 
+      })
+
+      doc.save("Catalog")
   }
 
   ngOnInit(): void {
